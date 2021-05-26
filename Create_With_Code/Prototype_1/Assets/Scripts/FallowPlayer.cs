@@ -4,7 +4,13 @@ public class FallowPlayer : MonoBehaviour
 {
     public GameObject GameObject;
 
-    private Vector3 _offset = new Vector3(0, 5, -7);
+    public float x = 0f;
+
+    public float y = 5f;
+
+    public float z = -7f;
+
+    private Vector3 _offset => new Vector3(x, y, z);
 
     // Start is called before the first frame update
     void Start()
