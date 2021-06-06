@@ -4,23 +4,43 @@ public class FallowPlayer : MonoBehaviour
 {
     public GameObject GameObject;
 
-    public float x = 0f;
+    public int PlayerNumber = 0;
 
-    public float y = 5f;
+    private KeyCode ChangeCameraKeyCode
+    {
+        get
+        {
+            return PlayerNumber switch
+            {
+                1 => KeyCode.Space,
+                2 => KeyCode.KeypadEnter,
+                _ => KeyCode.Space
+            };
+        }
+    }
 
-    public float z = -7f;
+    private bool cameraToggle;
 
-    private Vector3 _offset => new Vector3(x, y, z);
+    private Vector3[] offset = new Vector3[2]
+    {
+        new Vector3(0, 5, -7),
+        new Vector3(0, 5, -2)
+    };
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = GameObject.transform.position + _offset;
+        if (Input.GetKeyDown(ChangeCameraKeyCode))
+        {
+            cameraToggle = !cameraToggle;
+        }
+
+        transform.position = GameObject.transform.position + offset[cameraToggle ? 1 : 0];
     }
 }

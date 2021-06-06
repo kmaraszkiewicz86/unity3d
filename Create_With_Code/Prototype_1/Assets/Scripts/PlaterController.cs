@@ -1,16 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaterController : MonoBehaviour
 {
-    private float Speed = 20.0f;
+    public int PlayerNumber = 0;
 
-    private float TurnSpeed = 45.0f;
+    private float speed = 20.0f;
 
-    private float horizontalInput;
+    private float turnSpeed = 45.0f;
 
-    private float forwardInput;
+    private string PlayerName
+    {
+        get
+        {
+            return PlayerNumber switch
+            {
+                1 => string.Empty,
+                2 => "2",
+                _ => string.Empty
+            };
+        }
+    }
+
+    private float HorizontalInput => Input.GetAxis($"Horizontal{PlayerName}");
+
+    private float ForwardInput => Input.GetAxis($"Vertical{PlayerName}");
 
     // Start is called before the first frame update
     void Start()
@@ -21,20 +34,17 @@ public class PlaterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        forwardInput = Input.GetAxis("Vertical");
-
         MoveForward();
         TurnOnAxis();
     }
 
     private void MoveForward()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * Speed * forwardInput);
+        transform.Translate(Vector3.forward * Time.deltaTime * speed * ForwardInput);
     }
 
     private void TurnOnAxis()
     {
-        transform.Rotate(Vector3.up * Time.deltaTime * TurnSpeed * horizontalInput);
+        transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * HorizontalInput);
     }
 }
