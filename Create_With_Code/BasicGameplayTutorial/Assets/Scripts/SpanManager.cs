@@ -31,9 +31,6 @@ public class SpanManager : MonoBehaviour
         int animalIndex = Random.Range(0, animalPrefabs.Length);
         int positionIndex = Random.Range(0, 3);
 
-        Debug.Log($"animalIndex => {animalIndex}");
-        Debug.Log($"positionIndex => {positionIndex}");
-
         GameObject choseAnimalPrefab = animalPrefabs[animalIndex];
         Vector3 animalPositon = new Vector3(Random.Range(-spawnXPosition, spawnXPosition), 0, spawnZPosition);
 
