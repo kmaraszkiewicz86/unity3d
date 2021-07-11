@@ -43,7 +43,7 @@ public class SpanManager : MonoBehaviour
                 startRotationXPosition = -startRotationXPosition;
             }
 
-            Vector3 animalPositon = new Vector3(startXPosition, 0, Random.Range(0, spawnZPosition));
+            Vector3 animalPositon = new Vector3(startXPosition, 0, Random.Range(3, 15));
             Instantiate(choseAnimalPrefab, animalPositon, Quaternion.Euler(0, startRotationXPosition, 0));
         }
         else

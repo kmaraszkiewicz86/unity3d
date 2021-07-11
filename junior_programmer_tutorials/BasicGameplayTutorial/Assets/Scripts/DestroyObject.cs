@@ -28,7 +28,7 @@ public class DestroyObject : MonoBehaviour
             || transform.transform.position.x < leftBound
             || transform.transform.position.x > rightBound)
         {
-            Debug.Log("Game over");
+            PlayerModel.DecreaseLives();
             Destroy(gameObject);
         }
     }
