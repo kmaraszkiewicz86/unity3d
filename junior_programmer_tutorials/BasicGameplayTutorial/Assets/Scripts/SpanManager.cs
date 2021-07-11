@@ -29,11 +29,28 @@ public class SpanManager : MonoBehaviour
     private void SpawnRandomAnimal()
     {
         int animalIndex = Random.Range(0, animalPrefabs.Length);
-        int positionIndex = Random.Range(0, 3);
 
         GameObject choseAnimalPrefab = animalPrefabs[animalIndex];
-        Vector3 animalPositon = new Vector3(Random.Range(-spawnXPosition, spawnXPosition), 0, spawnZPosition);
 
-        Instantiate(choseAnimalPrefab, animalPositon, choseAnimalPrefab.transform.rotation);
+        if (Random.Range(1, 100) % 2 == 1)
+        {
+            var startXPosition = spawnXPosition;
+            var startRotationXPosition = -90;
+
+            if (Random.Range(1, 100) % 2 == 1)
+            {
+                startXPosition = -startXPosition;
+                startRotationXPosition = -startRotationXPosition;
+            }
+
+            Vector3 animalPositon = new Vector3(startXPosition, 0, Random.Range(0, spawnZPosition));
+            Instantiate(choseAnimalPrefab, animalPositon, Quaternion.Euler(0, startRotationXPosition, 0));
+        }
+        else
+        {
+            Vector3 animalPositon = new Vector3(Random.Range(-spawnXPosition, spawnXPosition), 0, spawnZPosition);
+            Instantiate(choseAnimalPrefab, animalPositon, choseAnimalPrefab.transform.rotation);
+        }
+        
     }
 }
