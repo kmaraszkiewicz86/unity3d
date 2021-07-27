@@ -19,6 +19,6 @@ public class PlayerController : MonoBehaviour
     {
         horizontalMovement = Input.GetAxis("Horizontal");
 
-
+        
     }
 }
