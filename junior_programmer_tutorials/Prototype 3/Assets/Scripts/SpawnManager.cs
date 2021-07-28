@@ -8,31 +8,39 @@ public class SpawnManager : MonoBehaviour
 
     private PlayerController playerController;
 
+    private BeginingPlayerAction beginingPlayerAction;
+
     private Vector3 startPosition = new Vector3(25, 0, 0);
 
     private Vector3 startPositionForDuplicateElement => new Vector3(startPosition.x, startPosition.y + 1.55f, startPosition.z);
 
-    private float startDelay = 2;
+    private float delayTime = 2;
 
     private float repeatRate = 2;
+
+    private bool isStarted = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating(nameof(SpawnNewObstacle), startDelay, repeatRate);
-
-        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        GameObject playerGameObject = GameObject.Find("Player");
+        playerController = playerGameObject.GetComponent<PlayerController>();
+        beginingPlayerAction = playerGameObject.GetComponent<BeginingPlayerAction>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (beginingPlayerAction.isBeginingActionRun || isStarted)
+            return;
+
+        InvokeRepeating(nameof(SpawnNewObstacle), delayTime, repeatRate);
+        isStarted = true;
     }
 
     void SpawnNewObstacle()
     {
-        if (playerController.isGameOver)
+        if (playerController.isGameOver && beginingPlayerAction.isBeginingActionRun)
             return;
 
         var index = Random.Range(0, ObstaclePrefabs.Length);

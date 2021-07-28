@@ -717,7 +717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2f8d00bf5057f624e949aef802595da9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -8.39
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2f8d00bf5057f624e949aef802595da9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -816,6 +816,19 @@ MonoBehaviour:
   dustParticle: {fileID: 1358172601}
   jumpAudio: {fileID: 8300000, guid: 0f7d0b7c3397f4dac91f20e8a77d2d57, type: 3}
   crashAudio: {fileID: 8300000, guid: 4bcde6de2166e41e284ec46d8a01fb90, type: 3}
+--- !u!114 &1836259856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836259852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aadda8755cbf3b41adc540e0471e562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBeginingActionRun: 1
 --- !u!4 &1836259857 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 2f8d00bf5057f624e949aef802595da9, type: 3}

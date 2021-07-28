@@ -10,15 +10,22 @@ public class MoveLeft : MonoBehaviour
 
     private PlayerController playerController;
 
+    private BeginingPlayerAction beginingPlayerAction;
+
     // Start is called before the first frame update
     void Start()
     {
-        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        GameObject player = GameObject.Find("Player");
+        playerController = player.GetComponent<PlayerController>();
+        beginingPlayerAction = player.GetComponent<BeginingPlayerAction>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (beginingPlayerAction.isBeginingActionRun)
+            return;
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             speedPower = 2f;

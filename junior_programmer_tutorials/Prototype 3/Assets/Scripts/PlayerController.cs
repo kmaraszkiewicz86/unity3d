@@ -26,7 +26,11 @@ public class PlayerController : MonoBehaviour
 
     private Animator playerAnimator;
 
+    private BeginingPlayerAction beginingPlayerAction;
+
     private int jumpTimes = 0;
+
+    private bool isStarted = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,15 +38,23 @@ public class PlayerController : MonoBehaviour
         playerRigidBody = GetComponent<Rigidbody>();
         playerAnimator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        beginingPlayerAction = GetComponent<BeginingPlayerAction>();
 
         Physics.gravity *= gravityModifier;
-
-        dustParticle.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (beginingPlayerAction.isBeginingActionRun)
+            return;
+
+        if (!isStarted)
+        {
+            dustParticle.Play();
+            isStarted = true;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && jumpTimes < 2 && !isGameOver)
         {
             playerRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -62,7 +74,7 @@ public class PlayerController : MonoBehaviour
             if (!isGameOver)
                 dustParticle.Play();
         }
-        else if (collision.gameObject.CompareTag("Obstacle") || 
+        else if (collision.gameObject.CompareTag("Obstacle") ||
             collision.gameObject.CompareTag("ObstacleExtended"))
         {
             playerAnimator.SetBool("Death_b", true);
