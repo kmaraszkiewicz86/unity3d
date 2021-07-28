@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject ObstaclePrefab;
+    public GameObject[] ObstaclePrefabs;
 
     private PlayerController playerController;
 
     private Vector3 startPosition = new Vector3(25, 0, 0);
+
+    private Vector3 startPositionForDuplicateElement => new Vector3(startPosition.x, startPosition.y + 1.55f, startPosition.z);
 
     private float startDelay = 2;
 
@@ -33,6 +35,14 @@ public class SpawnManager : MonoBehaviour
         if (playerController.isGameOver)
             return;
 
-        Instantiate(ObstaclePrefab, startPosition, ObstaclePrefab.transform.rotation);
+        var index = Random.Range(0, ObstaclePrefabs.Length);
+        GameObject obstacle = ObstaclePrefabs[index];
+
+        Instantiate(obstacle, startPosition, obstacle.transform.rotation);
+
+        if (obstacle.CompareTag("ObstacleExtended") && Random.Range(0, 1000) % 2 == 0)
+        {
+            Instantiate(obstacle, startPositionForDuplicateElement, obstacle.transform.rotation);
+        }
     }
 }

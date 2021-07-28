@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     public bool isGameOver = false;
 
+    public float speedPower = 1f;
+
     public ParticleSystem explosionParticle;
 
     public ParticleSystem dustParticle;
@@ -23,6 +25,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRigidBody;
 
     private Animator playerAnimator;
+
+    private int jumpTimes = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -39,13 +43,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && !isGameOver)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpTimes < 2 && !isGameOver)
         {
             playerRigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isOnGround = false;
             playerAnimator.SetTrigger("Jump_trig");
             dustParticle.Stop();
             audioSource.PlayOneShot(jumpAudio, 5.0f);
+            jumpTimes++;
         }
     }
 
@@ -53,12 +57,13 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isOnGround = true;
+            jumpTimes = 0;
 
             if (!isGameOver)
                 dustParticle.Play();
         }
-        else if (collision.gameObject.CompareTag("Obstacle"))
+        else if (collision.gameObject.CompareTag("Obstacle") || 
+            collision.gameObject.CompareTag("ObstacleExtended"))
         {
             playerAnimator.SetBool("Death_b", true);
             playerAnimator.SetInteger("DeathType_int", 2);
