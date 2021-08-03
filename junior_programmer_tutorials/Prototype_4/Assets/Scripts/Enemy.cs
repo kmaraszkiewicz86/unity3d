@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float speed = 10.0f;
+    public float speed = 5.0f;
 
     private Rigidbody enemyRigidBody;
 
@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        enemyRigidBody.AddForce((player.transform.position - transform.position).normalized * speed);
+        Vector3 moveDirection = (player.transform.position - transform.position).normalized;
+
+        enemyRigidBody.AddForce(moveDirection * speed);
     }
 }
