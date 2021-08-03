@@ -10,18 +10,30 @@ public class Enemy : MonoBehaviour
 
     private GameObject player;
 
+    private PlayerController playerController;
+
     // Start is called before the first frame update
     void Start()
     {
         enemyRigidBody = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
+        playerController = player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.y < -10)
+        {
+            Destroy(gameObject);
+        }
+
+        if (playerController.IsGameOver)
+            return;
+
         Vector3 moveDirection = (player.transform.position - transform.position).normalized;
 
         enemyRigidBody.AddForce(moveDirection * speed);
+
     }
 }
