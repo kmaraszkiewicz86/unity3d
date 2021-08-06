@@ -372,6 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   powerupIndicator: {fileID: 1769703048}
+  IsGameOver: 0
 --- !u!1 &1211016355
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,9 +740,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89f446dd8e5e084aad02c5281ffca00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 5269394874958590428, guid: 2c3969fe9e1230a4e94bf819c457eebf, type: 3}
+  enemyPrefabs:
+  - {fileID: 5269394874958590428, guid: 2c3969fe9e1230a4e94bf819c457eebf, type: 3}
+  - {fileID: 6632588916093075114, guid: ca7f79603530b7344993c408d66786e1, type: 3}
   powerupPrefab: {fileID: 8622070111260398809, guid: bc1522831a6c90348bdd5d23e4d5f0ee, type: 3}
-  IsGameOver: 0
 --- !u!4 &2044814041
 Transform:
   m_ObjectHideFlags: 0
