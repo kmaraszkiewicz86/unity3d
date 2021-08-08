@@ -23,8 +23,11 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("NotDestroy");
+
         if (transform.position.y < -10)
         {
+            Debug.Log("Destroy");
             Destroy(gameObject);
         }
 

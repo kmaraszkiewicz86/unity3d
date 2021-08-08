@@ -14,10 +14,6 @@ public class SpawnManager : MonoBehaviour
 
     private float boundLimit = 9.0f;
 
-    private float delayTime = 2f;
-
-    private float repeatTime = 2f;
-
     private int amountOfEnemies = 1;
 
     // Start is called before the first frame update
@@ -44,12 +40,14 @@ public class SpawnManager : MonoBehaviour
 
     private void InstiateNewEnemies(int amountOfEnemies)
     {
+        if (GameObject.FindGameObjectsWithTag("Powerup").Length == 0)
+            Instantiate(powerupPrefab, GenerateEnemyPosition(), powerupPrefab.transform.rotation);
+        
         for (var index = 0; index < amountOfEnemies; index++)
         {
             GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
             Instantiate(enemyPrefab, GenerateEnemyPosition(), enemyPrefab.transform.rotation);
-            Instantiate(powerupPrefab, GenerateEnemyPosition(), powerupPrefab.transform.rotation);
         }
     }
 

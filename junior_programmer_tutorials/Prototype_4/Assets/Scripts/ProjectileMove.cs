@@ -1,12 +1,15 @@
+using Assets.Scripts.Extenstions;
 using UnityEngine;
 
 public class ProjectileMove : MonoBehaviour
 {
-    public GameObject enemyToFallow;
+    public GameObject enemy;
 
-    public float speed = 20f;
+    public float speed = 5;
 
     private Rigidbody projectileRigidbody;
+
+    private float boundLimit = 13;
 
     // Start is called before the first frame update
     void Start()
@@ -17,13 +20,28 @@ public class ProjectileMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var distanceToEnemy = (enemyToFallow.transform.position - transform.position).normalized;
+        if (transform.position.x > boundLimit 
+            || transform.position.x < -boundLimit
+            || transform.position.z > boundLimit
+            || transform.position.x < -boundLimit)
+        {
+            Destroy(gameObject);
+        }
 
-        projectileRigidbody.AddForce(distanceToEnemy  * speed);
+        var distance = (enemy.transform.position - transform.position);
+
+        projectileRigidbody.AddForce(distance * speed);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") )
+        if (collision.gameObject.IsGameObjectEnemy())
+        {
+            var enemyRigidBody = collision.gameObject.GetComponent<Rigidbody>();
+            var distanceFromEnemy = (collision.gameObject.transform.position - transform.position).normalized;
+
+            enemyRigidBody.AddForce(distanceFromEnemy * 10, ForceMode.Impulse);
+            Destroy(gameObject);
+        }
     }
 }
