@@ -12,9 +12,9 @@ public class PlayerController : MonoBehaviour
 
     public GameObject[] enemyPrefabs;
 
-    private bool hasPowerUp = true;
+    private bool hasPowerUp = false;
 
-    private float powerUpStrength = 15f;
+    private float powerUpStrength = 10f;
 
     private Rigidbody playerRigidBody;
 
@@ -55,16 +55,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("OnCollisionEnter");
-        Debug.Log(other.gameObject.tag);
-
         if (other.gameObject.CompareTag("Powerup"))
         {
             hasPowerUp = true;
             powerupIndicator.SetActive(true);
             Destroy(other.gameObject);
-            //StartCoroutine(PowerupCountdownRoutine());
-
+            StartCoroutine(PowerupCountdownRoutine());
         }
     }
 
@@ -77,7 +73,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && hasPowerUp)
+        if (collision.gameObject.CompareTag("EnemyWithPowerup") && !hasPowerUp)
+        {
+            var awayPosition = transform.position - collision.gameObject.transform.position;
+
+            playerRigidBody.AddForce(awayPosition * powerUpStrength, ForceMode.Impulse);
+        }
+        else if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyWithPowerup")) 
+            && hasPowerUp)
         {
             var enemyRigidBody = collision.gameObject.GetComponent<Rigidbody>();
             var awayPosition = collision.gameObject.transform.position - transform.position;

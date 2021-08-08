@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float jumpForce = 10f;
+    public float jumpForce = 100f;
 
     public float speed = 10f;
 
@@ -63,6 +63,26 @@ public class PlayerController : MonoBehaviour
         if (transform.position.z <= -zBoundLimit)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, -zBoundLimit);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("OnTriggerEnter: " + other.gameObject.tag);
+
+        if (other.gameObject.CompareTag("Powerup"))
+        {
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("OnCollisionEnter: " + collision.gameObject.tag);
+
+        if (collision.gameObject.CompareTag("Powerup"))
+        {
+            Destroy(collision.gameObject);
         }
     }
 }
