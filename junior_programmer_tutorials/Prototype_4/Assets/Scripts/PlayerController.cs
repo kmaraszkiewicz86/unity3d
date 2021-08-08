@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     public bool IsGameOver = false;
 
+    public GameObject[] enemyPrefabs;
+
     private bool hasPowerUp = true;
 
     private float powerUpStrength = 15f;
@@ -41,6 +43,14 @@ public class PlayerController : MonoBehaviour
         playerRigidBody.AddForce(focalPointGameObject.transform.forward * verticalInput * speed);
 
         powerupIndicator.gameObject.transform.position = transform.position - new Vector3(0, 0.5f, 0);
+
+        if (enemyPrefabs != null && enemyPrefabs.Length > 0)
+        {
+            for (var enemyPrefabIndex = 0; enemyPrefabIndex < enemyPrefabs.Length; enemyPrefabIndex++)
+            {
+                //Instantiate()
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
