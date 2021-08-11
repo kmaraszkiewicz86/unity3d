@@ -17,15 +17,33 @@ public class GameManager : MonoBehaviour
 
     public bool isGameActive;
 
+    public GameObject titleScreen;
+
     private int score;
 
     private float spawnRate = 1.0f;
+
+    private void Start()
+    {
+        titleScreen = GameObject.Find("Title Screen");
+    }
 
     public void UpdateScore(int scoreToAdd)
     {
         score += scoreToAdd;
 
         scoreText.text = $"Score: {score}";
+    }
+
+    public void StartGame(int difficuty)
+    {
+        isGameActive = true;
+        StartCoroutine(SpawnTargets());
+        score = 0;
+        UpdateScore(0);
+        titleScreen.SetActive(false);
+
+        spawnRate /= difficuty;
     }
 
     public void GameOver()
@@ -38,15 +56,6 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        isGameActive = true;
-        StartCoroutine(SpawnTargets());
-        score = 0;
-        UpdateScore(0);
     }
 
     private IEnumerator SpawnTargets()
