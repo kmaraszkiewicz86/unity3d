@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,11 +13,11 @@ public class Target : MonoBehaviour
     private GameManager gameManager;
 
     private float RandomTorque => Random.Range(-maxTorque, maxTorque);
-    
+
     private readonly float maxTorque = 10f;
 
-    private Vector3 RandomSpeed => Vector3.up* Random.Range(minSpeed, maxSpeed);
-    
+    private Vector3 RandomSpeed => Vector3.up * Random.Range(minSpeed, maxSpeed);
+
     private readonly float minSpeed = 12f;
 
     private readonly float maxSpeed = 16f;
@@ -43,6 +43,9 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (!gameManager.isGameActive)
+            return;
+
         Destroy(gameObject);
 
         gameManager.UpdateScore(pointValue);
@@ -52,11 +55,14 @@ public class Target : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(gameObject.tag);
+
+        if (!gameObject.CompareTag("Bad"))
+        {
+            gameManager.GameOver();
+        }
+
         Destroy(gameObject);
 
-        if (other.gameObject.CompareTag("Bad"))
-            return;
-
-        gameManager.GameOver();
     }
 }
