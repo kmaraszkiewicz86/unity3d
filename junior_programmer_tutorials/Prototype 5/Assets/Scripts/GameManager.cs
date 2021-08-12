@@ -13,9 +13,13 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI gameOvetText;
 
+    public TextMeshProUGUI livesText;
+
     public Button restartButton;
 
     public bool isGameActive;
+
+    private int lives;
 
     public GameObject titleScreen;
 
@@ -35,11 +39,23 @@ public class GameManager : MonoBehaviour
         scoreText.text = $"Score: {score}";
     }
 
+    public int UpdatePlayerLives()
+    {
+        if (lives <= 0)
+            return 0;
+
+        lives--;
+        livesText.text = $"Lives: {lives}";
+
+        return lives;
+    }
+
     public void StartGame(int difficuty)
     {
         isGameActive = true;
         StartCoroutine(SpawnTargets());
         score = 0;
+        lives = 10;
         UpdateScore(0);
         titleScreen.SetActive(false);
 
