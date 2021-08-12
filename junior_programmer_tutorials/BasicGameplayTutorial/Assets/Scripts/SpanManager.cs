@@ -20,12 +20,6 @@ public class SpanManager : MonoBehaviour
         InvokeRepeating(nameof(SpawnRandomAnimal), startDelay, spawnInterval);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void SpawnRandomAnimal()
     {
         int animalIndex = Random.Range(0, animalPrefabs.Length);
