@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
 
     public bool isGameActive;
 
+    public GameObject pauseScreen;
+
+    public bool IsGamePaused => pauseScreen.activeInHierarchy;
+
     private int lives;
 
     public GameObject titleScreen;
@@ -29,6 +33,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        //pauseScreen = GameObject.Find("Pause Screen");
         titleScreen = GameObject.Find("Title Screen");
     }
 
@@ -72,11 +77,58 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        pauseScreen.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && isGameActive)
+        {
+            TogglePauseScreen();
+        }
+    }
+
+    private void TogglePauseScreen()
+    {
+        pauseScreen.SetActive(!pauseScreen.gameObject.activeInHierarchy);
+        SetGravityForAllObjects(!pauseScreen.gameObject.activeInHierarchy);
+        if (!pauseScreen.gameObject.activeInHierarchy)
+        {
+            StartCoroutine(SpawnTargets());
+        }
+        else
+        {
+            StopAllCoroutines();
+        }
+    }
+
+    public void SetGravityForAllObjects(bool value)
+    {
+        GameObject[] allGameObjects = FindObjectsOfType<GameObject>();
+        Rigidbody objectRigidBody = null;
+
+        foreach (GameObject gameObject in allGameObjects)
+        {
+            objectRigidBody = gameObject?.GetComponent<Rigidbody>();
+
+            if (objectRigidBody != null)
+            {
+                objectRigidBody.constraints = value
+                    ? RigidbodyConstraints.None
+                    : RigidbodyConstraints.FreezeAll;
+
+                if (value)
+                {
+                    gameObject?.GetComponent<Target>()?.StartTorqueObject();
+                    objectRigidBody.freezeRotation = false;
+                }
+            }
+        }
     }
 
     private IEnumerator SpawnTargets()
     {
-        while (isGameActive)
+        while (isGameActive && !pauseScreen.gameObject.activeInHierarchy)
         {
             yield return new WaitForSeconds(spawnRate);
             var index = Random.Range(0, targets.Count);

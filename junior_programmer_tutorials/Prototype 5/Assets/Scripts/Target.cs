@@ -28,6 +28,11 @@ public class Target : MonoBehaviour
 
     private readonly float ySpawnPos = -2f;
 
+    public void StartTorqueObject()
+    {
+        targetRigidBody.AddTorque(new Vector3(RandomTorque, RandomTorque, RandomTorque), ForceMode.Impulse);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,14 +41,14 @@ public class Target : MonoBehaviour
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
         targetRigidBody.AddForce(RandomSpeed, ForceMode.Impulse);
-        targetRigidBody.AddTorque(new Vector3(RandomTorque, RandomTorque, RandomTorque), ForceMode.Impulse);
+        StartTorqueObject();
 
         transform.position = RandomPosition;
     }
 
     private void OnMouseDown()
     {
-        if (!gameManager.isGameActive)
+        if (!gameManager.isGameActive || gameManager.IsGamePaused)
             return;
 
         Destroy(gameObject);

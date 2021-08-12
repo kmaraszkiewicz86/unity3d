@@ -18,12 +18,6 @@ public class VolumeManager : MonoBehaviour
         OnVolumeChange(30);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnVolumeChange(float volume)
     {
         Debug.Log($"volume: {volume}");
