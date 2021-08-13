@@ -1,27 +1,34 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
+    public float movementSpeed;
+
+    public float rotationSpeed;
+
     public GameObject box;
-    
+
+    private float verticalMovement;
+
+    private float horizontalMovement;
+
     [SerializeField] private Vector3 mOffset;
 
     [SerializeField] private float mZCoord;
 
     private Rigidbody ballRigidBody;
 
-
-
-    private void Start()
+    // Update is called once per frame
+    void Update()
     {
-        ballRigidBody = GetComponent<Rigidbody>();
-    }
+        verticalMovement = Input.GetAxis("Vertical");
+        horizontalMovement = Input.GetAxis("Horizontal");
 
-    private void FixedUpdate()
-    {
+        gameObject.transform.Translate(Vector3.forward * verticalMovement * movementSpeed * Time.deltaTime);
+        gameObject.transform.Rotate(Vector3.up * horizontalMovement * rotationSpeed * Time.deltaTime);
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Vector3 distance = (box.transform.position - transform.position).normalized;
