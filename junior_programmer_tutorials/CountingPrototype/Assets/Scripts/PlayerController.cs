@@ -14,10 +14,6 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalMovement;
 
-    [SerializeField] private Vector3 mOffset;
-
-    [SerializeField] private float mZCoord;
-
     private Rigidbody ballRigidBody;
 
     // Update is called once per frame
@@ -35,26 +31,5 @@ public class PlayerController : MonoBehaviour
 
             ballRigidBody.AddForce(distance * 5, ForceMode.Impulse);
         }
-    }
-
-    private void OnMouseDown()
-    {
-        mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
-
-        mOffset = gameObject.transform.position - GetMouseWorldPos();
-    }
-
-    private void OnMouseDrag()
-    {
-        transform.position = GetMouseWorldPos() + mOffset;
-    }
-
-    private Vector3 GetMouseWorldPos()
-    {
-        Vector3 mousePosition = Input.mousePosition;
-
-        mousePosition.z = mZCoord;
-
-        return Camera.main.ScreenToWorldPoint(mousePosition);
     }
 }
