@@ -1,45 +1,67 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.HelperData;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    [SerializeField] private Vector3 mOffset;
+    [SerializeField] private float force = 10;
 
-    [SerializeField] private float mZCoord;
+    private Rigidbody ballRigidBody;
 
-    [SerializeField] private GameObject player;
+    private SphereCollider ballsphereCollider;
 
-    // Start is called before the first frame update
-    void Awake()
+    private GameManager gameManager;
+
+    [SerializeField] private GameObject destination;
+
+    public void ThrowAway(Transform playerTransform)
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        ballRigidBody.useGravity = true;
+        ballsphereCollider.enabled = true;
+        transform.parent = null;
+
+        Vector3 powerVector = destination.transform.position - playerTransform.position;
+
+        ballRigidBody.AddForce(powerVector * force, ForceMode.Impulse);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
+    {
+        ballRigidBody = GetComponent<Rigidbody>();
+        ballsphereCollider = GetComponent<SphereCollider>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        destination = GameObject.Find("Destination");
+    }
+
+    private void Update()
     {
         
     }
 
     private void OnMouseDown()
     {
-        mZCoord = Camera.main.WorldToScreenPoint(player.transform.position).z;
-
-        mOffset = gameObject.transform.position - GetMouseWorldPos();
+        ballRigidBody.useGravity = false;
+        ballsphereCollider.enabled = false;
+        transform.position = destination.transform.position;
+        transform.parent = destination.transform;
     }
 
-    private void OnMouseDrag()
+    private void OnTriggerEnter(Collider other)
     {
-        transform.position = GetMouseWorldPos() + mOffset;
+        if (other.CompareTag("Ground"))
+        {
+            gameManager.CreateNewBall();
+            Destroy(gameObject);
+        }
     }
 
-    private Vector3 GetMouseWorldPos()
+    private void OnCollisionEnter(Collision collision)
     {
-        Vector3 mousePosition = Input.mousePosition;
-
-        mousePosition.z = mZCoord;
-
-        return Camera.main.ScreenToWorldPoint(mousePosition);
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            gameManager.UpdateScore();
+            gameManager.CreateNewBall();
+        }
     }
 }

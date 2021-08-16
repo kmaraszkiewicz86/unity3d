@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalMovement;
 
-    private Rigidbody ballRigidBody;
+
 
     // Update is called once per frame
     void Update()
@@ -27,9 +27,18 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Vector3 distance = (box.transform.position - transform.position).normalized;
+            var destinationObject = GameObject.Find("Destination");
 
-            ballRigidBody.AddForce(distance * 5, ForceMode.Impulse);
+            if (destinationObject != null && destinationObject.transform.childCount > 0)
+            {
+                var ball = destinationObject.transform.GetChild(0);
+
+                if (ball != null)
+                {
+                    var ballController = ball.GetComponent<BallController>();
+                    ballController.ThrowAway(transform);
+                }
+            }
         }
     }
 }
