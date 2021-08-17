@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public CharacterController characterController;
+
     public float movementSpeed;
-
-    public float rotationSpeed;
-
-    public GameObject box;
 
     private float verticalMovement;
 
     private float horizontalMovement;
-
-
 
     // Update is called once per frame
     void Update()
@@ -22,8 +18,9 @@ public class PlayerController : MonoBehaviour
         verticalMovement = Input.GetAxis("Vertical");
         horizontalMovement = Input.GetAxis("Horizontal");
 
-        gameObject.transform.Translate(Vector3.forward * verticalMovement * movementSpeed * Time.deltaTime);
-        gameObject.transform.Rotate(Vector3.up * horizontalMovement * rotationSpeed * Time.deltaTime);
+        Vector3 movement = Vector3.forward * verticalMovement + Vector3.right * horizontalMovement;
+
+        characterController.Move(movement * movementSpeed * Time.deltaTime);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
